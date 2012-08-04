@@ -22,6 +22,7 @@ rownames(gender.test.out) <- c("W", "p")
 print(gender.test.out)
 # gender.means <- data.frame(sapply(dt[4:15], FUN = function(x) tapply(x, dt$Пол, FUN = mean, na.rm = TRUE)))
 # rownames(gender.means) <- c("Мужчины", "Женщины")
+# by(dt[,4:15], dt$Пол, FUN = colMeans)
 gender.means <- aggregate(dt[4:15], by = list(dt$Пол), FUN = mean, na.rm = TRUE)[-1]
 rownames(gender.means) <- c("Мужчины", "Женщины")
 print(gender.means)
@@ -31,7 +32,7 @@ title(main = "Средние значения в группах\nмужчин и
 legend(-3, -0.15, legend = names(gender.means), lty = 1, lwd = 3, col = rainbow(12), bty = "n", ncol = 3)
 par(opar)
 #cor.matrix <-  round(cor(dt[,4:15], method = "spearman"), digits = 2)
-cor.matrix <- rcorr(as.matrix(dt[,4:15]), type = "spearman")
+cor.matrix <- corr.test((dt[,4:15]), method = "spearman")
 print(cor.matrix)
 # Факторный анализ
 ev <- eigen(cor(dt[,4:15]))
