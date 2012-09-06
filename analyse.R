@@ -14,14 +14,14 @@ print(desc.stats)
 pie(table(dt$Пол))
 
 # Проверка соответствия нормальному закону распределения
-norm.test.out <- data.frame(sapply(dt[3:15], FUN = function(x) shapiro.test(x)[1:2]))
-rownames(norm.test.out) <- c("W", "p")
-print(t(norm.test.out))
+norm.test.out <- t(sapply(dt[3:15], FUN = function(x) shapiro.test(x)[1:2]))
+colnames(norm.test.out) <- c("W", "p")
+print(norm.test.out)
 
 # различия в группах по полу
-gender.test.out <- data.frame(sapply(dt[,4:15], FUN = function(x) wilcox.test(x ~ dt$Пол, data = dt)[c(1,3)]))
-rownames(gender.test.out) <- c("W", "p")
-print(t(gender.test.out))
+gender.test.out <- t(sapply(dt[,4:15], FUN = function(x) wilcox.test(x ~ dt$Пол, data = dt)[c(1,3)]))
+colnames(gender.test.out) <- c("W", "p")
+print(gender.test.out)
 gender.means <- aggregate(dt[4:15], by = list(dt$Пол), FUN = mean, na.rm = TRUE)[-1]
 rownames(gender.means) <- c("Мужчины", "Женщины")
 print(t(gender.means))
